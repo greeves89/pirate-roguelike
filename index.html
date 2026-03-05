@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pirate Roguelike ⚓</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #050d1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: monospace;
+    }
+    #game {
+      display: block;
+      image-rendering: pixelated;
+      cursor: crosshair;
+    }
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #050d1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffd700;
+      font-size: 24px;
+      font-family: monospace;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">⚓ Loading Pirate Roguelike...</div>
+  <canvas id="game"></canvas>
+  <script type="module" src="/index.ts"></script>
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 500);
+    });
+  </script>
+</body>
+</html>
