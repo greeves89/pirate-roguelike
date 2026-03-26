@@ -153,7 +153,15 @@ export class Game {
 
     // Movement
     const move = this.input.getMovementVector();
+    const prevX = player.x;
+    const prevY = player.y;
     player.update(dt, move.x, move.y);
+
+    // Island collision — push player back
+    if (this.world.checkIslandCollision(player.x, player.y, 16)) {
+      player.x = prevX;
+      player.y = prevY;
+    }
 
     // Camera
     this.camera.follow(player.x, player.y);
@@ -169,8 +177,16 @@ export class Game {
     // Update enemies
     for (const enemy of this.enemies) {
       if (!enemy.alive) continue;
+      const ePrevX = enemy.x;
+      const ePrevY = enemy.y;
       const shots = enemy.update(dt, player.x, player.y, this.time);
       this.projectiles.push(...shots);
+
+      // Island collision for enemies
+      if (this.world.checkIslandCollision(enemy.x, enemy.y, 16)) {
+        enemy.x = ePrevX;
+        enemy.y = ePrevY;
+      }
 
       // Collision with player
       const ramDmg = enemy.checkPlayerCollision(player.x, player.y) * dt * 60;
