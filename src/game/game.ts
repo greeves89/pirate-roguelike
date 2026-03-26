@@ -1,4 +1,4 @@
-import { CANVAS_WIDTH, CANVAS_HEIGHT, WORLD_SIZE_ZONES } from './constants';
+import { CANVAS_WIDTH, CANVAS_HEIGHT, WORLD_SIZE_ZONES, BOMB_RADIUS, BOMB_DAMAGE } from './constants';
 import { InputManager } from './input';
 import { Camera } from './camera';
 import { Player } from '../entities/player';
@@ -226,9 +226,22 @@ export class Game {
           for (const enemy of this.enemies) {
             if (!enemy.alive) continue;
             if (distance(exp.x, exp.y, enemy.x, enemy.y) < exp.radius) {
+              const wasAlive = enemy.alive;
               enemy.takeDamage(exp.damage);
-              if (!enemy.alive) {
+              if (wasAlive && !enemy.alive) {
                 this.xpOrbs.push(...enemy.dropXP(1));
+                // Chain explosion: mini-explosion at enemy position
+                if (player.stats.bombChain && !exp.isChain) {
+                  this.explosions.add({
+                    x: enemy.x,
+                    y: enemy.y,
+                    radius: BOMB_RADIUS * 0.5,
+                    progress: 0,
+                    damage: BOMB_DAMAGE * 0.4,
+                    fromPlayer: true,
+                    isChain: true,
+                  });
+                }
               }
             }
           }

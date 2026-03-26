@@ -10,6 +10,7 @@ export interface Explosion {
   progress: number; // 0..1
   damage: number;
   fromPlayer: boolean;
+  isChain?: boolean;
 }
 
 export class Projectile {
