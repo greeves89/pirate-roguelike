@@ -52,7 +52,9 @@ export class Player {
     const reduction = this.stats.armorMultiplier;
     const actual = Math.max(1, Math.floor(amount * (1 - reduction)));
     this.hp = Math.max(0, this.hp - actual);
-    this.invincibilityFrames = PLAYER_INVINCIBILITY_FRAMES;
+    // Ghost Form doubles invincibility frames after taking damage
+    const iframes = this.stats.ghostMode ? PLAYER_INVINCIBILITY_FRAMES * 2 : PLAYER_INVINCIBILITY_FRAMES;
+    this.invincibilityFrames = iframes;
     if (this.hp <= 0) this.alive = false;
   }
 

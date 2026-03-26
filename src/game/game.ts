@@ -191,7 +191,7 @@ export class Game {
           const hitRadius = enemy.type === 'kraken' ? 40 : (enemy.type === 'boss' ? 50 : 25);
           if (distance(proj.x, proj.y, enemy.x, enemy.y) < hitRadius) {
             if (proj.type === 'bomb') {
-              const exp = proj.createExplosion();
+              const exp = proj.createExplosion(player.stats.bombRadiusMultiplier);
               if (exp) this.explosions.add(exp);
               proj.alive = false;
             } else {

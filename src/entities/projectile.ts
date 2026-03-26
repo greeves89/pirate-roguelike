@@ -65,12 +65,12 @@ export class Projectile {
   }
 
   /** For bombs: create explosion on impact */
-  createExplosion(): Explosion | null {
+  createExplosion(radiusMultiplier: number = 1): Explosion | null {
     if (this.type === 'bomb') {
       return {
         x: this.x,
         y: this.y,
-        radius: BOMB_RADIUS,
+        radius: BOMB_RADIUS * radiusMultiplier,
         progress: 0,
         damage: this.damage,
         fromPlayer: this.fromPlayer,
